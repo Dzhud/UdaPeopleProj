@@ -118,10 +118,8 @@ jobs:
             command: |
                 cd frontend
                 npm install
-                npm audit --audit-level=critical
-            
-     
-       
+                npm audi fix --audit-level=critical
+                npm audit --audit-level=critical             
   
   scan-backend:
     docker:
@@ -135,6 +133,7 @@ jobs:
             command: |
                 cd backend
                 npm install
+                npm audi fix --audit-level=critical
                 npm audit --audit-level=critical  
   
   #deploy-infrastructure:
