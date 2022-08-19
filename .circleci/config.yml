@@ -12,12 +12,22 @@ commands:
       - run:
           name: Destroy environments
           when: on_fail
-          command: |
-            echo "'Destroying environment:' << parameters.workflow_id >> "
-            aws s3 rm s3://udapeople-<< parameters.workflow_id >> --recursive
-            aws cloudformation delete-stack --stack-name udapeople-backend-<< parameters.workflow_id >>
-            aws cloudformation delete-stack --stack-name udapeople-frontend-<< parameters.workflow_id >>
-           
+          command: |            
+             echo "Destroying environment: << parameters.workflow_id >>"
+             aws cloudformation delete-stack \
+             --stack-name prometheus-<<parameters.workflow_id>>
+             aws cloudformation delete-stack \
+             --stack-name cloudfront-<<parameters.workflow_id>>
+             aws cloudformation delete-stack \
+             --stack-name database-<<parameters.workflow_id>>
+             aws s3 rm s3://udapeople-$(<<parameters.workflow_id>>:0:5) --recursive
+             aws cloudformation delete-stack \
+             --stack-name starter-frontend-<<parameters.workflow_id>>
+             aws cloudformation delete-stack \
+             --stack-name udapeople-backend-<<parameters.workflow_id>>
+             aws s3 rm s3://udapeople-<<parameters.workflow_id>> --recursive
+             aws cloudformation delete-stack \
+             --stack-name udapeople-frontend-<<parameters.workflow_id>>
 #
   #revert-migrations:
   #  description: Revert the last migration if successfully run in the current workflow.
@@ -173,7 +183,7 @@ jobs:
                --query 'Reservations[*].Instances[*].PublicIpAddress' \
                --filters Name=tag:aws:cloudformation:stack-name,Values=udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7} \
                --output text) >> ~/project/.circleci/ansible/inventory.txt
-               cat ~/project/.circleci/ansible/inventory.txt
+               cat .circleci/ansible/inventory.txt
 
       - persist_to_workspace:
           root: ~/
