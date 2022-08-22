@@ -15,6 +15,9 @@ npm-debug.log*
 .sass-cache/
 .tmp/
 .versions/
+.theia/
+.vs/
+.github
 coverage/
 dist/
 node_modules/
