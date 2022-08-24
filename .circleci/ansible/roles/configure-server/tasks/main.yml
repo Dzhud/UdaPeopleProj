@@ -2,12 +2,12 @@
 - name: "Update Packages"
   become: true
   apt:
-  update_cache: yes
+    update_cache: yes
 
 - name: "Upgrade Packages"
   become: true
   apt:
-  upgrade: yes 
+    upgrade: yes 
 
 - name: remove unneeded dependencies
   become: yes
