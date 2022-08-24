@@ -1,14 +1,19 @@
 ---
-- name: 'update and upgrade packages.'
-  become: yes
+- name: "Update Packages"
+  become: true
   apt:
-    upgrade: yes
-    update_cache: yes
-    cache_valid_time: 86400
+  update_cache: yes
+
+- name: "Upgrade Packages"
+  become: true
+  apt:
+  upgrade: yes 
+
 - name: remove unneeded dependencies
   become: yes
   apt:
-    autoremove: yes
+    autoremove: yes 
+
 - name: install dependencies
   become: yes
   apt:
