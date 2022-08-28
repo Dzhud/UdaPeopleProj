@@ -330,15 +330,15 @@ jobs:
   #
   smoke-test:
     docker:
-      - image: python:3.10-alpine3.16 
+      - image: python:3.7-alpine3.16 
     steps:
       - checkout
       - run:
           name: Install dependencies
           command: |
             apk add --update --no-cache curl aws-cli tar gzip nodejs npm
-      - attach_workspace:
-          at: ~/
+      #- attach_workspace:
+          #at: ~/
       - run:
           name: Backend smoke test.
           command: |
@@ -349,7 +349,7 @@ jobs:
             --output text)
             export API_URL="http://${BACKEND_IP}:3030"
             echo "${API_URL}"
-            if curl -s "${API_URL}/api/status" | grep "ok" then return 0 else return 1 fi
+            if curl -s "${API_URL}/api/status" | grep "ok"; then return 0; else return 1; fi
 
       - run:
           name: Frontend smoke test.
