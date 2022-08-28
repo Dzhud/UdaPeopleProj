@@ -337,8 +337,8 @@ jobs:
           name: Install dependencies
           command: |
             apk add --update --no-cache curl aws-cli tar gzip nodejs npm
-      # Delete this and  `export BACKEND_IP=$(tail ...` if all else fails
-     
+      - attach_workspace:
+          at: ~/
       - run:
           name: Backend smoke test.
           command: |
