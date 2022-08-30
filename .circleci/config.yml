@@ -396,8 +396,7 @@ jobs:
         - checkout
         - run:
             name: Get old stack workflow id
-            command: |
-              export OldWorkflowID=<<pipeline.parameters.workflow_id>>
+            command: |              
               export OldWorkflowID=$(aws cloudformation list-exports \
               --query "Exports[?Name==\`Cloudfront-${CIRCLE_WORKFLOW_ID:0:7}\`].Value" \
               --no-paginate --output text)
@@ -413,7 +412,6 @@ jobs:
 
               if [[ "${STACKS[@]}" =~ "${OldWorkflowID}" ]]
               then
-                # COMMENT IT OUT WHEN THROUGH THEN RERUN
                 echo "--------------------Delete Confirmed------------------------------"
                  aws s3 rm "s3://udapeople-${OldWorkflowID}" --recursive
                  aws cloudformation delete-stack --stack-name "udapeople-backend-${OldWorkflowID}"
